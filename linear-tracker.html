@@ -1,0 +1,778 @@
+<title>Linear Ticket Tracker</title>
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --surface-2: #fbfaf7;
+    --ink: #1e1b16;
+    --ink-soft: #5b564c;
+    --ink-faint: #8b8577;
+    --border: #e4e0d8;
+    --border-soft: #ece9df;
+
+    --triage: #96660f;
+    --triage-tint: #f8ecd6;
+    --triage-bar: #b8862b;
+
+    --backlog: #6f6293;
+    --backlog-tint: #ece8f4;
+    --backlog-bar: #7c6f9c;
+
+    --todo: #3c6a89;
+    --todo-tint: #dfeaf1;
+    --todo-bar: #4f84a6;
+
+    --progress: #92551f;
+    --progress-tint: #f5e6d3;
+    --progress-bar: #b97b3f;
+
+    --done: #206b60;
+    --done-tint: #dff1ec;
+    --done-bar: #2e8b7f;
+
+    --off: #6b6459;
+    --off-tint: #eae7de;
+    --off-bar: #8a8272;
+
+    --flag: #a8433a;
+    --flag-tint: #f7e6e2;
+
+    --shadow: rgba(30, 27, 22, 0.07);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17140f;
+      --surface: #211d17;
+      --surface-2: #29241c;
+      --ink: #f2eee4;
+      --ink-soft: #bdb5a4;
+      --ink-faint: #8a8272;
+      --border: #3a352b;
+      --border-soft: #2d2921;
+
+      --triage: #e7b354;
+      --triage-tint: #332a18;
+      --triage-bar: #e0a83e;
+
+      --backlog: #b6a6dd;
+      --backlog-tint: #2c2739;
+      --backlog-bar: #a996d6;
+
+      --todo: #8fc2e0;
+      --todo-tint: #1c2e38;
+      --todo-bar: #6fabce;
+
+      --progress: #e3ad74;
+      --progress-tint: #3a2c1a;
+      --progress-bar: #d99a54;
+
+      --done: #6fcdba;
+      --done-tint: #1b3430;
+      --done-bar: #4fc3ae;
+
+      --off: #b0a999;
+      --off-tint: #2c2820;
+      --off-bar: #8f8877;
+
+      --flag: #e5867b;
+      --flag-tint: #3a231f;
+
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #17140f;
+    --surface: #211d17;
+    --surface-2: #29241c;
+    --ink: #f2eee4;
+    --ink-soft: #bdb5a4;
+    --ink-faint: #8a8272;
+    --border: #3a352b;
+    --border-soft: #2d2921;
+    --triage: #e7b354; --triage-tint: #332a18; --triage-bar: #e0a83e;
+    --backlog: #b6a6dd; --backlog-tint: #2c2739; --backlog-bar: #a996d6;
+    --todo: #8fc2e0; --todo-tint: #1c2e38; --todo-bar: #6fabce;
+    --progress: #e3ad74; --progress-tint: #3a2c1a; --progress-bar: #d99a54;
+    --done: #6fcdba; --done-tint: #1b3430; --done-bar: #4fc3ae;
+    --off: #b0a999; --off-tint: #2c2820; --off-bar: #8f8877;
+    --flag: #e5867b; --flag-tint: #3a231f;
+    --shadow: rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 40px 32px 64px;
+    margin: 0;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  header { margin-bottom: 28px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+
+  .sub {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    max-width: 68ch;
+    line-height: 1.55;
+    margin: 0 0 6px;
+  }
+
+  .legend {
+    font-size: 12px;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .legend .flag-chip {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--flag);
+    background: var(--flag-tint);
+    border-radius: 100px;
+    padding: 2px 8px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    margin: 26px 0 34px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 14px;
+    box-shadow: 0 1px 2px var(--shadow);
+  }
+
+  .stat-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .stat-label.triage { color: var(--triage); }
+  .stat-label.backlog { color: var(--backlog); }
+  .stat-label.todo { color: var(--todo); }
+  .stat-label.progress { color: var(--progress); }
+  .stat-label.done { color: var(--done); }
+  .stat-label.off { color: var(--off); }
+
+  .stat-count {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 22px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  section.group { margin-bottom: 30px; }
+
+  .group-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .dot.triage { background: var(--triage-bar); }
+  .dot.backlog { background: var(--backlog-bar); }
+  .dot.todo { background: var(--todo-bar); }
+  .dot.progress { background: var(--progress-bar); }
+  .dot.done { background: var(--done-bar); }
+  .dot.off { background: var(--off-bar); }
+
+  .group-title {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+  }
+
+  .group-count {
+    margin-left: auto;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  .group-desc {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin: -8px 0 14px;
+  }
+
+  .cards { display: flex; flex-direction: column; gap: 10px; }
+
+  .ticket {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 2px var(--shadow);
+  }
+
+  .ticket-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .ticket-id {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: var(--border-soft);
+    border-radius: 5px;
+    padding: 1px 6px;
+  }
+  .ticket-id:hover { color: var(--ink); }
+
+  .ticket-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  .pill {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 2px 8px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .pill.p-high { background: var(--flag-tint); color: var(--flag); }
+  .pill.p-medium { background: var(--border-soft); color: var(--ink-soft); }
+  .pill.p-low { background: var(--border-soft); color: var(--ink-faint); }
+  .pill.p-none { background: var(--border-soft); color: var(--ink-faint); }
+
+  .pill.updated {
+    background: var(--flag-tint);
+    color: var(--flag);
+    margin-left: auto;
+  }
+
+  .pill.target {
+    background: var(--done-tint);
+    color: var(--done);
+  }
+
+  .ticket-meta {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+  .ticket-meta b { color: var(--ink-soft); font-weight: 600; }
+
+  .ticket-summary {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+
+  details.ticket-details summary {
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  details.ticket-details summary::-webkit-details-marker { display: none; }
+  details.ticket-details summary::before {
+    content: "▸";
+    font-size: 10px;
+    transition: transform 0.15s ease;
+  }
+  details.ticket-details[open] summary::before { transform: rotate(90deg); }
+  details.ticket-details summary:hover { color: var(--ink-soft); }
+
+  .detail-body {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 8px 0 2px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .detail-body p { margin: 0 0 8px; }
+  .detail-body p:last-child { margin-bottom: 0; }
+  .detail-body .quote {
+    display: block;
+    font-style: italic;
+    color: var(--ink-faint);
+    margin: 4px 0;
+    padding-left: 10px;
+    border-left: 2px solid var(--border);
+  }
+  .detail-body a { color: var(--todo); text-decoration: none; }
+  .detail-body a:hover { text-decoration: underline; }
+
+  footer {
+    margin-top: 34px;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Zip &middot; Agent skills program</p>
+    <h1>OOTB Skills &mdash; Linear tracker</h1>
+    <p class="sub">17 open items from the OOTB Skills roster.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat-card">
+      <span class="stat-label triage">New tickets</span>
+      <span class="stat-count">3</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label off">In Beta</span>
+      <span class="stat-count">3</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label todo">Todo</span>
+      <span class="stat-count">4</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label progress">In Progress</span>
+      <span class="stat-count">1</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label done">Done</span>
+      <span class="stat-count">2</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label backlog">Backlog</span>
+      <span class="stat-count">4</span>
+    </div>
+  </div>
+
+  <section class="group">
+    <div class="group-head">
+      <span class="dot triage"></span>
+      <span class="group-title">New tickets</span>
+      <span class="group-count">3</span>
+    </div>
+    <p class="group-desc">Filed Aug 31&ndash;Sep 1 &mdash; pulled to the top regardless of where they otherwise sit.</p>
+    <div class="cards">
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2708/renewals-to-surface-all-stakeholder-agreements-tablecsv-output-with" target="_blank">AIP-2708</a>
+          <span class="ticket-title">Renewals to surface all stakeholder agreements + table/CSV output</span>
+          <span class="pill p-none">No priority</span>
+        </div>
+        <div class="ticket-meta">Assignee &middot; <b>Natasha Berk</b> &middot; Created Aug 31, 2026 &middot; Still in Triage</div>
+        <div class="ticket-summary">Just filed, not yet routed. Linear's triage assistant is already suggesting it link to two related renewals issues and a Mixpanel renewal-agent project.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Two gaps in the renewals flow: (1) the search API only filters agreements by owner/creator, not the broader "stakeholder" definition used on the renewals dashboard &mdash; this silently dropped agreements like Atlassian's, owned by someone else on the team; (2) results come back as text narrative instead of table/CSV with room for custom fields (Account Manager, Vendor Rep, etc).</p>
+            <p>No human comments yet. Linear's own triage suggestions point to <b>GONG-3652</b> (end-to-end renewal automation), <b>CLM-3694</b> (Ferguson Enterprises renewals dashboard owner-column bug), and the "Renewal Negotiation Agent (superagent) | Mixpanel, Inc." project as related context.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/PSE-3709/superagent-skill-refers-to-irrelevant-context-libraries" target="_blank">PSE-3709</a>
+          <span class="ticket-title">Superagent skill refers to irrelevant context libraries</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Filed under <b>Tier 2 Support</b> (not the Agents team) &middot; Created Sep 1, 2026 &middot; Still in Triage</div>
+        <div class="ticket-summary">Also just filed and unrouted. Linear flags it as likely related to a past fix, AIPC-1826.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>The contract-triage skill references two context libraries. One, <span class="quote">@contract-triage-conditions</span>, was left empty on purpose (it's meant to store customer-specific document-check rules), so it was never set up. Instead of ignoring it, the skill falls back to <span class="quote">@risk-triage-playbook</span> automatically &mdash; which seems to be happening only because both names contain the word "triage."</p>
+            <p>No comments yet. Linear's triage assistant suggests this may be a regression of <b>AIPC-1826</b> ("Prevent stale Context Library references in agent skills").</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2710/superagent-run-stops-on-large-doc-parsing" target="_blank">AIP-2710</a>
+          <span class="ticket-title">Superagent run stops on large doc parsing (SOC 2)</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Assignee &middot; <b>Will Liu</b> &middot; Created Aug 31, 2026 &middot; Production bug</div>
+        <div class="ticket-summary">Live incident with an active fix rollout &mdash; this Linear thread is syncing in real time with a Slack channel.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Root cause: parsing a large SOC 2 document happens inline inside the agent's turn and takes ~5 minutes, but the whole turn has only a 10-minute budget &mdash; so the run gets killed mid-parse.</p>
+            <p class="quote">Benny Chen's proposed fix: make parsing an async background job with a durable, shared cache. The original turn stops burning its 10-minute budget while parsing runs separately; when the cached result is ready, a fresh agent turn resumes with a full new budget. Design doc + PR #124145 in progress (an earlier attempt, PR #118386, was closed unmerged); the underlying background-job infrastructure is already merged (PR #116590, #121463).</p>
+            <p>Separately, Joseph Tobin has already built the ability to split a large doc into smaller ones and parse them in parallel &mdash; "ready for launch but not enabled" yet.</p>
+            <p>Latest comment (just before this tracker was pulled): reassigned to Joseph Tobin, who is "rolling out the fix."</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <span class="dot off"></span>
+      <span class="group-title">In Beta</span>
+      <span class="group-count">3</span>
+    </div>
+    <p class="group-desc">Not tracked as standalone tickets anymore &mdash; each is being delivered through a broader in-beta project, all now targeting <b>Sep 11</b>.</p>
+    <div class="cards">
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2321/superagent-to-update-vendor-fields" target="_blank">AIP-2321</a>
+          <span class="ticket-title">Superagent to update vendor fields</span>
+          <span class="pill p-none">No priority</span>
+          <span class="pill target">🎯 Target: Sep 11</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Already Planned</b> &middot; Created Aug 19, 2026</div>
+        <div class="ticket-summary">Folded into a broader "object update tool" project now targeted for <b>Sep 11</b> &mdash; not tracked as its own fix anymore.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Risk triage needs to be able to update the "risk" field on a vendor record; today field updates only work on purchase requests.</p>
+            <p class="quote">Natasha Berk (Aug 27): "we'll support this as part of a broader object update tool project, should have support by beta but difficult to do before. we discussed workarounds in the meantime"</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2510/addremove-line-items-and-reliably-read-category-subcategory" target="_blank">AIP-2510</a>
+          <span class="ticket-title">Add/remove line items and reliably read category + subcategory</span>
+          <span class="pill p-medium">Medium</span>
+          <span class="pill target">🎯 Target: Sep 11</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Already Planned</b> &middot; Created Aug 25, 2026</div>
+        <div class="ticket-summary">Same "object update tool" project as AIP-2321, now targeted for <b>Sep 11</b>. A third ask in the original ticket turned out to already work.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>For data validation: the agent needs to add/remove line items to match an extracted document (not just edit existing ones), and reliably read Zip's category/subcategory hierarchy instead of guessing or missing it.</p>
+            <p class="quote">Natasha Berk (Aug 27): "we'll support this as part of an object update tool for beta."</p>
+            <p>A separate ask in the same ticket &mdash; bulk-updating header fields in one batch instead of one HITL at a time &mdash; was demoed working by Chuqian Li via prompt tuning; Andrew Yang agreed to drop that part of the request.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2400/superagent-to-be-able-to-change-approval-node-status" target="_blank">AIP-2400</a>
+          <span class="ticket-title">Superagent to be able to change approval node status</span>
+          <span class="pill p-none">No priority</span>
+          <span class="pill target">🎯 Target: Sep 11</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Canceled</b> (as a standalone item) &middot; Created Aug 21, 2026</div>
+        <div class="ticket-summary">Not canceled outright &mdash; being delivered through the "Superagents: Automate My Approval" project, targeting <b>Sep 11</b>.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Needed so the tail spend skill can auto-approve an approval node (and auto-complete subtasks) the way IP agents already can.</p>
+            <p class="quote">Will Liu: "This will be addressed by the Superagents: Automate My Approval project." Hannah asked whether Sep 11 was the ETA for the functions themselves; Will confirmed: "Yep targeting Sept 11."</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <span class="dot todo"></span>
+      <span class="group-title">Todo</span>
+      <span class="group-count">4</span>
+    </div>
+    <div class="cards">
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2195/store-skill-generated-report-on-requestvendor-as-a-document" target="_blank">AIP-2195</a>
+          <span class="ticket-title">Store skill-generated report on request/vendor as a document</span>
+          <span class="pill p-high">High</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Product + Design</b> &middot; Assignee &middot; <b>Natasha Berk</b> &middot; Created Aug 17, 2026</div>
+        <div class="ticket-summary">On the roadmap, still being scoped &mdash; no sequencing committed yet.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Needs a markdown-to-PDF function for superagents, upload-to-request and upload-to-vendor actions, and auto-generated labels/doc names &mdash; so a report (e.g. a vendor health check) can be traced back to later instead of disappearing after the session.</p>
+            <p class="quote">Natasha Berk (Aug 18): "This is on the roadmap! Still figuring out design / sequencing, we can let you know once it's planned"</p>
+            <p>Hannah acknowledged Aug 19. Relevant to Vendor consolidation analysis and Supplier strategy analysis.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2644/auto-trigger-next-steps-in-agent-skill-after-callable-task-is-printed" target="_blank">AIP-2644</a>
+          <span class="ticket-title">Auto-trigger next steps in agent skill after callable task is printed to canvas</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Todo</b> &middot; Assignee &middot; <b>Kaelyn Huang</b> &middot; Created Aug 27, 2026</div>
+        <div class="ticket-summary">Queued, not started. Linked to the same handoff/canvas Slack thread as AIP-2397.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>For the price benchmark agent's 6-step flow: once a callable task prints its result to canvas at step 5, the agent should continue straight to step 6 instead of needing another manual chat prompt.</p>
+            <p class="quote">Felix Chen (Aug 27): "cc @kaelynhuang think this is related to this thread" (same Slack thread as the AIP-2397 handoff bug)</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2647/add-subdomain-to-httpsnext-ainext-previewzipcomhome" target="_blank">AIP-2647</a>
+          <span class="ticket-title">Add subdomain to next-ai.next-preview.zip.com/home</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Todo</b> &middot; Assignee &middot; <b>Meghana Narayanan</b> &middot; Created Aug 27, 2026</div>
+        <div class="ticket-summary">Queued, assigned; Lukas Froehlich looped in.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Would let people enter a specific environment via a subdomain (e.g. block.next-ai.next-preview.zip.com) instead of the shared URL, to stop environments from getting mixed up during testing.</p>
+            <p class="quote">Will Liu (Aug 28): "cc @meghananarayanan @lukasfroehlich"</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2696/super-agent-reads-stale-request-field-value-after-update" target="_blank">AIP-2696</a>
+          <span class="ticket-title">Superagent reads stale request field value after update</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Todo</b> &middot; Assignee &middot; <b>Felix Chen</b> &middot; Created Aug 29, 2026</div>
+        <div class="ticket-summary">Open bug, no comments yet.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>The data validation agent kept reporting a Net 30 payment term even after that field was cleared out &mdash; it was reading a cached/stale state rather than the current field value. Since fields get updated on requests constantly, this needs to read the latest state reliably.</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <span class="dot progress"></span>
+      <span class="group-title">In Progress</span>
+      <span class="group-count">1</span>
+    </div>
+    <div class="cards">
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2148/a-get-vendor-spend-tool-to-get-a-vendors-past-spendings-insights" target="_blank">AIP-2148</a>
+          <span class="ticket-title">A "get vendor spend" tool for quick past-spend insights</span>
+          <span class="pill p-none">No priority</span>
+        </div>
+        <div class="ticket-meta">Assignee &middot; <b>Unassigned</b> &middot; Created Aug 13, 2026</div>
+        <div class="ticket-summary">Core interval/date-range support shipped Aug 18 in PR #125627. A few enhancements intentionally deferred.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Natasha Berk first asked whether this already existed; Joseph Tobin confirmed the base tool was there and shipped an expansion.</p>
+            <p class="quote">Joseph Tobin (Aug 18): PR #125627 adds weekly/monthly/quarterly/yearly series, explicit inclusive dates, and year_to_date / previous_calendar_year / trailing_12_months / all_time presets. Existing summary/statistics modes, approved/invoiced selection, permission checks, and the five-vendor limit stay intact.</p>
+            <p>Deliberately left out of that PR: consistent spend_category across modes, total_spend/virtual-card definition, currency selection, prior-period comparisons + charts, top-N/cross-vendor rollups, and response-size limits for long all-time histories. Feeds the Supplier historical spend analysis skill.</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <span class="dot done"></span>
+      <span class="group-title">Done</span>
+      <span class="group-count">2</span>
+    </div>
+    <div class="cards">
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2397/callable-task-isnt-being-triggered" target="_blank">AIP-2397</a>
+          <span class="ticket-title">Callable task isn't being triggered (price benchmark / spendhound)</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Assignee &middot; <b>Kaelyn Huang</b> &middot; Deployed to prod Aug 25, closed Aug 29</div>
+        <div class="ticket-summary">Fixed and shipped. Root cause was Anthropic rejecting edited reasoning blocks during a Chat&rarr;specialist handoff.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p class="quote">Kaelyn Huang: "When Chat hands off to a specialist, the specialist replays Chat's message history, which contains routing tool calls it doesn't have, so we edit those calls out of the message before sending it to Anthropic. With thinking turned on that same message also carries signed reasoning blocks, and Anthropic rejects any message whose reasoning blocks were modified, so the request 400s and the specialist's turn dies before it ever replies."</p>
+            <p>Two PRs shipped the fix (#126712, #126577). Rollout: QA build v2026.08.21.qa on Aug 22 (prod ETA Aug 24) &rarr; deployed to Production as v2026.08.21.prod on Aug 25 &rarr; auto-closed Done, confirmed Aug 29.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2671/data-validation-agent-doesnt-display-report-before-suggesting-changes" target="_blank">AIP-2671</a>
+          <span class="ticket-title">Data validation agent doesn't display report before suggesting changes</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Assignee &middot; <b>Felix Chen</b> &middot; Closed Aug 31, 2026</div>
+        <div class="ticket-summary">Done as of Aug 31 (a few days later than the earlier note), and the actual fix was more specific than "stronger prompting."</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Even though the prompt explicitly says to show the validation report before suggesting edits, the agent kept jumping to suggesting changes first.</p>
+            <p>An early attempt looked like it worked, but Andrew Yang found it still inconsistent on Sonnet 4/5 (Opus 5 was fine) and asked for it to be debugged rather than left as a model quirk.</p>
+            <p class="quote">Felix Chen: "think this is a prompting issue, might be related to the recent hitl system prompt update where we made it more aggressive in doing write tool calls without using ask_user_question to ask user questions first"</p>
+            <p>Andrew tested the follow-up fix and confirmed 5/5 successful runs on Aug 31, closing the ticket.</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <span class="dot backlog"></span>
+      <span class="group-title">Backlog</span>
+      <span class="group-count">4</span>
+    </div>
+    <div class="cards">
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-1566/import-and-export-skills-between-environments" target="_blank">AIP-1566</a>
+          <span class="ticket-title">Import and export skills between environments</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>To Sequence</b> &middot; Assignee &middot; <b>Natasha Berk</b> &middot; Created Jul 16, 2026</div>
+        <div class="ticket-summary">Still queued. Team suggested folding this into native-agent/onboarding work rather than building it standalone.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Ask: export a skill to a portable file and import it into another environment (dev &rarr; staging &rarr; prod, or across tenants), including the ability for imported skills to call IP apps and other complex components.</p>
+            <p class="quote">Natasha Berk (Aug 18): "Consider including in native agents and/or onboarding work"</p>
+            <p>No committed timeline yet.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-1647/schedule-proactive-superagent-skill-runs" target="_blank">AIP-1647</a>
+          <span class="ticket-title">Schedule proactive Superagent skill runs</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Backlog</b> &middot; Assignee &middot; <b>Natasha Berk</b> &middot; Created Jul 22, 2026</div>
+        <div class="ticket-summary">Confirmed again on Aug 5: planned for H2, no specific date yet.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Ask: let skills run on a cadence/cron in the background and proactively notify someone when findings meet a threshold, instead of only running when a user manually triggers them.</p>
+            <p class="quote">Felix Chen, earlier triage note: needs product decisions on cadence, target scope, run-as identity/permissions, and one delivery channel before it's buildable.</p>
+            <p class="quote">Natasha Berk (Aug 5): "This is planned for H2, don't have a more specific timeline yet"</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2157/super-agent-need-to-automatically-have-the-context-which-company-it-is" target="_blank">AIP-2157</a>
+          <span class="ticket-title">Superagent needs automatic context of which company it's running for</span>
+          <span class="pill p-high">High</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>To Sequence</b> &middot; Assignee &middot; <b>Brandon Li</b> &middot; Created Aug 14, 2026</div>
+        <div class="ticket-summary">Assigned to Brandon Li as a starter task; no update since Aug 18.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>This needs to live in the agent's knowledge base (not a "get the company" tool call), so it can act like it works for the customer by default &mdash; e.g. when checking how peer companies handle something similar.</p>
+            <p class="quote">Brandon Li (Aug 18): "starter task, work with jack"</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-head">
+          <a class="ticket-id" href="https://linear.app/ziphq/issue/AIP-2629/super-agent-to-be-able-to-auto-finalize-request-details" target="_blank">AIP-2629</a>
+          <span class="ticket-title">Superagent to be able to auto finalize request details</span>
+          <span class="pill p-medium">Medium</span>
+        </div>
+        <div class="ticket-meta">Status &middot; <b>Backlog</b> &middot; Assignee &middot; <b>Natasha Berk</b> &middot; Created Aug 26, 2026</div>
+        <div class="ticket-summary">Deprioritized to Backlog with no timeline &mdash; explicitly flagged as a real constraint on tail spend automation.</div>
+        <details class="ticket-details">
+          <summary>Details</summary>
+          <div class="detail-body">
+            <p>Needed so tail-spend requests can auto-finalize their details and get approved without a human pass.</p>
+            <p class="quote">Natasha Berk (Aug 27): "This is complicated for us to support, unfortunately we don't currently have a timeline. Adding to the backlog. We'll just need to take this limitation into account for the tail spend automation &mdash; feel free to tell Lu we're blocked by this and if he feels strongly we need to slot it in I can discuss tradeoffs / resourcing with him."</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    Pulled live from Linear on Sep 1, 2026. Ticket IDs link out to Linear for the full thread.
+  </footer>
+</div>
