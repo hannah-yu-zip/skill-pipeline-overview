@@ -31,6 +31,12 @@
     --prep-bar: #4f84a6;
     --action: #a8433a;
     --action-tint: #f7e6e2;
+    --fde: #8a4a68;
+    --fde-tint: #f3e6ee;
+    --fde-bar: #a15b80;
+    --complete: #2f7d4f;
+    --complete-tint: #e2f2e7;
+    --complete-bar: #3f9863;
     --shadow: rgba(30, 27, 22, 0.07);
   }
 
@@ -61,6 +67,12 @@
       --prep-bar: #6fabce;
       --action: #e5867b;
       --action-tint: #3a231f;
+      --fde: #dba0c0;
+      --fde-tint: #3a2530;
+      --fde-bar: #c98bb0;
+      --complete: #7cd9a0;
+      --complete-tint: #1c3324;
+      --complete-bar: #5cc98a;
       --shadow: rgba(0, 0, 0, 0.35);
     }
   }
@@ -91,6 +103,12 @@
     --prep-bar: #6fabce;
     --action: #e5867b;
     --action-tint: #3a231f;
+    --fde: #dba0c0;
+    --fde-tint: #3a2530;
+    --fde-bar: #c98bb0;
+    --complete: #7cd9a0;
+    --complete-tint: #1c3324;
+    --complete-bar: #5cc98a;
     --shadow: rgba(0, 0, 0, 0.35);
   }
 
@@ -105,7 +123,7 @@
   }
 
   .wrap {
-    max-width: 1180px;
+    max-width: 1640px;
     margin: 0 auto;
   }
 
@@ -174,6 +192,8 @@
   .stat-label.qa { color: var(--qa); }
   .stat-label.pm { color: var(--pm); }
   .stat-label.eval { color: var(--eval); }
+  .stat-label.fde { color: var(--fde); }
+  .stat-label.complete { color: var(--complete); }
 
   .stat-pct {
     font-family: "IBM Plex Mono", monospace;
@@ -208,11 +228,13 @@
   .bar-fill.qa { background: var(--qa-bar); }
   .bar-fill.pm { background: var(--pm-bar); }
   .bar-fill.eval { background: var(--eval-bar); }
+  .bar-fill.fde { background: var(--fde-bar); }
+  .bar-fill.complete { background: var(--complete-bar); }
 
   /* board */
   .board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 14px;
     align-items: start;
   }
@@ -246,6 +268,8 @@
   .dot.qa { background: var(--qa-bar); }
   .dot.pm { background: var(--pm-bar); }
   .dot.eval { background: var(--eval-bar); }
+  .dot.fde { background: var(--fde-bar); }
+  .dot.complete { background: var(--complete-bar); }
 
   .col-title {
     font-family: "Fraunces", Georgia, serif;
@@ -331,6 +355,36 @@
   .tag.owner { background: var(--action-tint); color: var(--action); }
   .tag.note { background: var(--border-soft); color: var(--ink-soft); font-weight: 500; }
 
+  .empty-plan {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 9px;
+    padding: 12px 13px;
+  }
+  .empty-plan-note {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+  .plan-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--fde);
+    margin: 0 0 4px;
+  }
+  .plan-list {
+    margin: 0 0 10px;
+    padding-left: 17px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .plan-list:last-child { margin-bottom: 0; }
+  .plan-list li { margin-bottom: 3px; }
+
   footer {
     margin-top: 30px;
     font-size: 12px;
@@ -358,17 +412,17 @@
   <header>
     <p class="eyebrow">Zip &middot; Agent skills</p>
     <h1>Skill pipeline</h1>
-    <p class="sub">20 skills in flight across Drafting, Preparing for QA, In QA, QA done &middot; PM review, and Eval.</p>
+    <p class="sub">20 skills in flight across Drafting, Preparing for QA, In QA, QA done &middot; PM review, Eval, FDE takes over, and Completed.</p>
   </header>
 
   <div class="stats">
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label draft">Drafting</span>
-        <span class="stat-pct">10%</span>
+        <span class="stat-pct">15%</span>
       </div>
-      <div class="stat-count">2 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill draft" style="width:10%"></div></div>
+      <div class="stat-count">3 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill draft" style="width:15%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -389,10 +443,10 @@
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label pm">QA done &middot; PM review</span>
-        <span class="stat-pct">20%</span>
+        <span class="stat-pct">15%</span>
       </div>
-      <div class="stat-count">4 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill pm" style="width:20%"></div></div>
+      <div class="stat-count">3 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill pm" style="width:15%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -402,6 +456,22 @@
       <div class="stat-count">5 of 20 skills</div>
       <div class="bar-track"><div class="bar-fill eval" style="width:25%"></div></div>
     </div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label fde">FDE takes over</span>
+        <span class="stat-pct">0%</span>
+      </div>
+      <div class="stat-count">0 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill fde" style="width:0%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label complete">Completed</span>
+        <span class="stat-pct">0%</span>
+      </div>
+      <div class="stat-count">0 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill complete" style="width:0%"></div></div>
+    </div>
   </div>
 
   <div class="board">
@@ -409,7 +479,7 @@
       <div class="col-head">
         <span class="dot draft"></span>
         <span class="col-title">Drafting</span>
-        <span class="col-count">2</span>
+        <span class="col-count">3</span>
       </div>
       <div class="cards">
         <div class="card">
@@ -420,6 +490,11 @@
         <div class="card">
           <div class="card-name">Supplier strategy analysis</div>
           <div class="owner">Owner &middot; <b>Cindy</b></div>
+        </div>
+        <div class="card">
+          <div class="card-name">Strategic negotiation</div>
+          <div class="owner">Owner &middot; <b>David</b></div>
+          <div class="status-note">Skill redesigned; have a dedicated prompt engineer to support the skill drafting and testing</div>
         </div>
       </div>
     </div>
@@ -486,7 +561,7 @@
       <div class="col-head">
         <span class="dot pm"></span>
         <span class="col-title">QA done &middot; PM review</span>
-        <span class="col-count">4</span>
+        <span class="col-count">3</span>
       </div>
       <div class="cards">
         <div class="card">
@@ -494,11 +569,6 @@
           <div class="owner">Owner &middot; <b>Anna</b></div>
           <div class="card-date">Aug 31</div>
           <div class="status-note">Refining skill after QA results</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Strategic negotiation</div>
-          <div class="owner">Owner &middot; <b>David</b></div>
-          <div class="card-date">Aug 31</div>
         </div>
         <div class="card">
           <div class="card-name">Competitive alternatives analysis</div>
@@ -544,6 +614,41 @@
           <div class="card-name">Adverse media</div>
           <div class="owner">Owner &middot; <b>Andrew</b></div>
           <div class="card-date">Sep 1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head">
+        <span class="dot fde"></span>
+        <span class="col-title">FDE takes over</span>
+        <span class="col-count">0</span>
+      </div>
+      <div class="cards">
+        <div class="empty-plan">
+          <div class="plan-label">Assignment</div>
+          <ul class="plan-list">
+            <li>Assign an FDE to each skill.</li>
+          </ul>
+          <div class="plan-label">Expected work</div>
+          <ul class="plan-list">
+            <li>Update the skill to handle failed test cases</li>
+            <li>Sync with PM on any design/logic confusion</li>
+            <li>Stabilize skill output</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head">
+        <span class="dot complete"></span>
+        <span class="col-title">Completed</span>
+        <span class="col-count">0</span>
+      </div>
+      <div class="cards">
+        <div class="empty-plan">
+          <div class="empty-plan-note">Standard to be defined.</div>
         </div>
       </div>
     </div>
