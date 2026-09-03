@@ -234,7 +234,7 @@
   /* board */
   .board {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 14px;
     align-items: start;
   }
@@ -412,25 +412,17 @@
   <header>
     <p class="eyebrow">Zip &middot; Agent skills</p>
     <h1>Skill pipeline</h1>
-    <p class="sub">20 skills in flight across Drafting, Preparing for QA, In QA, QA done &middot; PM review, Eval, FDE takes over, and Completed.</p>
+    <p class="sub">20 skills in flight across Drafting, In QA, QA done &middot; PM review, Eval, FDE takes over, and Completed.</p>
   </header>
 
   <div class="stats">
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label draft">Drafting</span>
-        <span class="stat-pct">15%</span>
+        <span class="stat-pct">20%</span>
       </div>
-      <div class="stat-count">3 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill draft" style="width:15%"></div></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-label prep">Preparing for QA</span>
-        <span class="stat-pct">5%</span>
-      </div>
-      <div class="stat-count">1 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill prep" style="width:5%"></div></div>
+      <div class="stat-count">4 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill draft" style="width:20%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -479,13 +471,12 @@
       <div class="col-head">
         <span class="dot draft"></span>
         <span class="col-title">Drafting</span>
-        <span class="col-count">3</span>
+        <span class="col-count">4</span>
       </div>
       <div class="cards">
         <div class="card">
           <div class="card-name">Supplier historical spend analysis</div>
           <div class="owner">Owner &middot; <b>Anna</b></div>
-          <div class="status-note">Blocked by incomplete vendor data</div>
         </div>
         <div class="card">
           <div class="card-name">Supplier strategy analysis</div>
@@ -496,16 +487,6 @@
           <div class="owner">Owner &middot; <b>David</b></div>
           <div class="status-note">Skill redesigned; have a dedicated prompt engineer to support the skill drafting and testing</div>
         </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="col-head">
-        <span class="dot prep"></span>
-        <span class="col-title">Preparing for QA</span>
-        <span class="col-count">1</span>
-      </div>
-      <div class="cards">
         <div class="card">
           <div class="card-name">Risk assessment + financial viability</div>
           <div class="owner">Owner &middot; <b>Julia</b></div>
@@ -648,7 +629,7 @@
       </div>
       <div class="cards">
         <div class="empty-plan">
-          <div class="empty-plan-note">Standard to be defined.</div>
+          <div class="empty-plan-note">Skill gets a score higher than 90 for all test cases.</div>
         </div>
       </div>
     </div>
