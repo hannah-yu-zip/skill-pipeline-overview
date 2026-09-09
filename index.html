@@ -355,6 +355,27 @@
   .tag.owner { background: var(--action-tint); color: var(--action); }
   .tag.note { background: var(--border-soft); color: var(--ink-soft); font-weight: 500; }
 
+  .report-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--complete);
+    text-decoration: none;
+    margin: 2px 0 6px;
+  }
+
+  .report-link:hover { text-decoration: underline; }
+
+  .report-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--complete);
+    flex: none;
+  }
+
   .empty-plan {
     background: var(--surface);
     border: 1px dashed var(--border);
@@ -443,18 +464,18 @@
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label eval">In Eval</span>
-        <span class="stat-pct">55%</span>
+        <span class="stat-pct">45%</span>
       </div>
-      <div class="stat-count">11 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill eval" style="width:55%"></div></div>
+      <div class="stat-count">9 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill eval" style="width:45%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label fde">FDE Iteration</span>
-        <span class="stat-pct">0%</span>
+        <span class="stat-pct">10%</span>
       </div>
-      <div class="stat-count">0 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill fde" style="width:0%"></div></div>
+      <div class="stat-count">2 of 20 skills</div>
+      <div class="bar-track"><div class="bar-fill fde" style="width:10%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -499,7 +520,7 @@
         </div>
         <div class="card">
           <div class="card-name">SOC 2 review</div>
-          <div class="owner">Owner &middot; <b>Chapman</b></div>
+          <div class="owner">Owner &middot; <b>Chapman, Ken</b></div>
         </div>
         <div class="card">
           <div class="card-name">Supplier strategy analysis</div>
@@ -541,7 +562,7 @@
       <div class="col-head">
         <span class="dot eval"></span>
         <span class="col-title">In Eval</span>
-        <span class="col-count">11</span>
+        <span class="col-count">9</span>
       </div>
       <div class="cards">
         <div class="card">
@@ -555,18 +576,8 @@
           <div class="card-date">Sep 1</div>
         </div>
         <div class="card">
-          <div class="card-name">Data validation</div>
-          <div class="owner">Owner &middot; <b>Andrew</b></div>
-          <div class="card-date">Sep 1</div>
-        </div>
-        <div class="card">
           <div class="card-name">Risk triage</div>
           <div class="owner">Owner &middot; <b>Julia, Hannah</b></div>
-          <div class="card-date">Sep 1</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Adverse media</div>
-          <div class="owner">Owner &middot; <b>Andrew</b></div>
           <div class="card-date">Sep 1</div>
         </div>
         <div class="card">
@@ -596,7 +607,7 @@
         </div>
         <div class="card">
           <div class="card-name">DORA screening</div>
-          <div class="owner">Owner &middot; <b>Andrew</b></div>
+          <div class="owner">Owner &middot; <b>Andrew, Ken</b></div>
           <div class="card-date">Sep 9</div>
         </div>
       </div>
@@ -606,9 +617,21 @@
       <div class="col-head">
         <span class="dot fde"></span>
         <span class="col-title">FDE Iteration</span>
-        <span class="col-count">0</span>
+        <span class="col-count">2</span>
       </div>
       <div class="cards">
+        <div class="card">
+          <div class="card-name">Data validation</div>
+          <div class="owner">Owner &middot; <b>Andrew</b></div>
+          <div class="card-date">Sep 1</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/dv-multiorg-report-0908.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Adverse media</div>
+          <div class="owner">Owner &middot; <b>Andrew</b></div>
+          <div class="card-date">Sep 1</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/am-multiorg-report-0909.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
         <div class="empty-plan">
           <div class="plan-label">Assignment</div>
           <ul class="plan-list">
