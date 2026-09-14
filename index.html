@@ -158,6 +158,18 @@
     margin: 0;
   }
 
+  .sub-note {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    max-width: 72ch;
+    line-height: 1.6;
+    margin: 10px 0 0;
+  }
+
+  .sub-note strong {
+    color: var(--ink-soft);
+  }
+
   /* stat bar */
   .stats {
     display: grid;
@@ -433,7 +445,8 @@
   <header>
     <p class="eyebrow">Zip &middot; Agent skills</p>
     <h1>Skill pipeline</h1>
-    <p class="sub">20 skills in flight across Drafting, In QA, QA done &middot; PM/FDE review, Eval, FDE Iteration, and Completed.</p>
+    <p class="sub">19 skills in flight across Drafting, In QA, QA done &middot; PM/FDE review, Eval, FDE Iteration, and Completed.</p>
+    <p class="sub-note"><strong>Supplier strategy analysis &mdash; deprioritized.</strong> We don&rsquo;t yet have the function to store past reports to vendors. This skill currently depends on running 5 other skills in one chat session, which is less useful and may cause routing issues.</p>
   </header>
 
   <div class="stats">
@@ -442,7 +455,7 @@
         <span class="stat-label draft">Drafting</span>
         <span class="stat-pct">5%</span>
       </div>
-      <div class="stat-count">1 of 20 skills</div>
+      <div class="stat-count">1 of 19 skills</div>
       <div class="bar-track"><div class="bar-fill draft" style="width:5%"></div></div>
     </div>
     <div class="stat-card">
@@ -450,40 +463,40 @@
         <span class="stat-label qa">In QA</span>
         <span class="stat-pct">0%</span>
       </div>
-      <div class="stat-count">0 of 20 skills</div>
+      <div class="stat-count">0 of 19 skills</div>
       <div class="bar-track"><div class="bar-fill qa" style="width:0%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label pm">QA done &middot; PM/FDE review</span>
-        <span class="stat-pct">35%</span>
+        <span class="stat-pct">32%</span>
       </div>
-      <div class="stat-count">7 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill pm" style="width:35%"></div></div>
+      <div class="stat-count">6 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill pm" style="width:32%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label eval">In Eval</span>
-        <span class="stat-pct">50%</span>
+        <span class="stat-pct">21%</span>
       </div>
-      <div class="stat-count">10 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill eval" style="width:50%"></div></div>
+      <div class="stat-count">4 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill eval" style="width:21%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label fde">FDE Iteration</span>
-        <span class="stat-pct">0%</span>
+        <span class="stat-pct">26%</span>
       </div>
-      <div class="stat-count">0 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill fde" style="width:0%"></div></div>
+      <div class="stat-count">5 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill fde" style="width:26%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label complete">Completed</span>
-        <span class="stat-pct">10%</span>
+        <span class="stat-pct">16%</span>
       </div>
-      <div class="stat-count">2 of 20 skills</div>
-      <div class="bar-track"><div class="bar-fill complete" style="width:10%"></div></div>
+      <div class="stat-count">3 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill complete" style="width:16%"></div></div>
     </div>
   </div>
 
@@ -517,7 +530,7 @@
       <div class="col-head">
         <span class="dot pm"></span>
         <span class="col-title">QA done &middot; PM/FDE review</span>
-        <span class="col-count">7</span>
+        <span class="col-count">6</span>
       </div>
       <div class="cards">
         <div class="card">
@@ -546,10 +559,6 @@
           <div class="status-note">Prompt engineer supporting</div>
         </div>
         <div class="card">
-          <div class="card-name">Supplier strategy analysis</div>
-          <div class="owner">Owner &middot; <b>Cindy, Hannah</b></div>
-        </div>
-        <div class="card">
           <div class="card-name">Procurement pre-check</div>
           <div class="owner">Owner &middot; <b>Andrew</b></div>
         </div>
@@ -560,42 +569,12 @@
       <div class="col-head">
         <span class="dot eval"></span>
         <span class="col-title">In Eval</span>
-        <span class="col-count">10</span>
+        <span class="col-count">4</span>
       </div>
       <div class="cards">
         <div class="card">
-          <div class="card-name">Vendor consolidation analysis</div>
-          <div class="owner">Owner &middot; <b>Cindy</b></div>
-          <div class="card-date">Sep 1</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Contract triage</div>
-          <div class="owner">Owner &middot; <b>Anna</b></div>
-          <div class="card-date">Sep 1</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Risk triage</div>
-          <div class="owner">Owner &middot; <b>Julia, Hannah</b></div>
-          <div class="card-date">Sep 1</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Contract review</div>
-          <div class="owner">Owner &middot; <b>Anna</b></div>
-          <div class="card-date">Sep 4</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Duplicate vendor check</div>
-          <div class="owner">Owner &middot; <b>Andrew</b></div>
-          <div class="card-date">Sep 8</div>
-        </div>
-        <div class="card">
           <div class="card-name">Price benchmarking</div>
           <div class="owner">Owner &middot; <b>Andrew, David Busch</b></div>
-          <div class="card-date">Sep 8</div>
-        </div>
-        <div class="card">
-          <div class="card-name">Competitive alternatives analysis</div>
-          <div class="owner">Owner &middot; <b>Sumuhan, Hannah</b></div>
           <div class="card-date">Sep 8</div>
         </div>
         <div class="card">
@@ -620,9 +599,39 @@
       <div class="col-head">
         <span class="dot fde"></span>
         <span class="col-title">FDE Iteration</span>
-        <span class="col-count">0</span>
+        <span class="col-count">5</span>
       </div>
       <div class="cards">
+        <div class="card">
+          <div class="card-name">Duplicate vendor check</div>
+          <div class="owner">Owner &middot; <b>Andrew</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/duplicate-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Vendor consolidation analysis</div>
+          <div class="owner">Owner &middot; <b>Cindy, Andrew</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/vca-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Competitive alternatives analysis</div>
+          <div class="owner">Owner &middot; <b>Sumuhan, Hannah</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/compalt-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Contract review</div>
+          <div class="owner">Owner &middot; <b>Anna</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/contract-review-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Contract triage</div>
+          <div class="owner">Owner &middot; <b>Anna</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/contract-triage-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
         <div class="empty-plan">
           <div class="plan-label">Assignment</div>
           <ul class="plan-list">
@@ -642,7 +651,7 @@
       <div class="col-head">
         <span class="dot complete"></span>
         <span class="col-title">Completed</span>
-        <span class="col-count">2</span>
+        <span class="col-count">3</span>
       </div>
       <div class="cards">
         <div class="card">
@@ -656,6 +665,12 @@
           <div class="owner">Owner &middot; <b>Andrew</b></div>
           <div class="card-date">Sep 9</div>
           <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/am-multiorg-report-0909.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Risk triage</div>
+          <div class="owner">Owner &middot; <b>Julia, Hannah</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/risk-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
         </div>
         <div class="empty-plan">
           <div class="empty-plan-note">Skill gets a score higher than 90 for all test cases.</div>
