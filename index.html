@@ -246,7 +246,7 @@
   /* board */
   .board {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 14px;
     align-items: start;
   }
@@ -296,6 +296,14 @@
     font-size: 12px;
     color: var(--ink-faint);
     font-variant-numeric: tabular-nums;
+  }
+
+  .col-note {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    margin: 0 0 10px;
   }
 
   .cards {
@@ -445,7 +453,7 @@
   <header>
     <p class="eyebrow">Zip &middot; Agent skills</p>
     <h1>Skill pipeline</h1>
-    <p class="sub">19 skills in flight across Drafting, In QA, QA done &middot; PM/FDE review, Eval, FDE Iteration, and Completed.</p>
+    <p class="sub">19 skills in flight across Drafting, In QA, QA done &middot; PM/FDE review, Eval, FDE Iteration, Expanded Eval, and Completed.</p>
     <p class="sub-note"><strong>Supplier strategy analysis &mdash; deprioritized.</strong> We don&rsquo;t yet have the function to store past reports to vendors. This skill currently depends on running 5 other skills in one chat session, which is less useful and may cause routing issues.</p>
   </header>
 
@@ -453,10 +461,10 @@
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label draft">Drafting</span>
-        <span class="stat-pct">5%</span>
+        <span class="stat-pct">0%</span>
       </div>
-      <div class="stat-count">1 of 19 skills</div>
-      <div class="bar-track"><div class="bar-fill draft" style="width:5%"></div></div>
+      <div class="stat-count">0 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill draft" style="width:0%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -469,10 +477,10 @@
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label pm">QA done &middot; PM/FDE review</span>
-        <span class="stat-pct">5%</span>
+        <span class="stat-pct">11%</span>
       </div>
-      <div class="stat-count">1 of 19 skills</div>
-      <div class="bar-track"><div class="bar-fill pm" style="width:5%"></div></div>
+      <div class="stat-count">2 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill pm" style="width:11%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -485,10 +493,18 @@
     <div class="stat-card">
       <div class="stat-top">
         <span class="stat-label fde">FDE Iteration</span>
-        <span class="stat-pct">27%</span>
+        <span class="stat-pct">10%</span>
       </div>
-      <div class="stat-count">5 of 19 skills</div>
-      <div class="bar-track"><div class="bar-fill fde" style="width:27%"></div></div>
+      <div class="stat-count">2 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill fde" style="width:10%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label eval">Expanded Eval</span>
+        <span class="stat-pct">16%</span>
+      </div>
+      <div class="stat-count">3 of 19 skills</div>
+      <div class="bar-track"><div class="bar-fill eval" style="width:16%"></div></div>
     </div>
     <div class="stat-card">
       <div class="stat-top">
@@ -503,34 +519,9 @@
   <div class="board">
     <div class="col">
       <div class="col-head">
-        <span class="dot draft"></span>
-        <span class="col-title">Drafting</span>
-        <span class="col-count">1</span>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <div class="card-name">Supplier negotiation</div>
-          <div class="owner">Owner &middot; <b>David</b></div>
-          <div class="status-note">Skill redesigned; have a dedicated prompt engineer to support the skill drafting and testing</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="col-head">
-        <span class="dot qa"></span>
-        <span class="col-title">In QA</span>
-        <span class="col-count">0</span>
-      </div>
-      <div class="cards">
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="col-head">
         <span class="dot pm"></span>
         <span class="col-title">QA done &middot; PM/FDE review</span>
-        <span class="col-count">1</span>
+        <span class="col-count">2</span>
       </div>
       <div class="cards">
         <div class="card">
@@ -538,6 +529,11 @@
           <div class="owner">Owner &middot; <b>Anna</b></div>
           <div class="card-date">Sep 2</div>
           <div class="status-note">Prompt engineer supporting</div>
+        </div>
+        <div class="card">
+          <div class="card-name">Supplier negotiation</div>
+          <div class="owner">Owner &middot; <b>David</b></div>
+          <div class="status-note">Skill redesigned; have a dedicated prompt engineer to support the skill drafting and testing</div>
         </div>
       </div>
     </div>
@@ -597,15 +593,9 @@
       <div class="col-head">
         <span class="dot fde"></span>
         <span class="col-title">FDE Iteration</span>
-        <span class="col-count">5</span>
+        <span class="col-count">2</span>
       </div>
       <div class="cards">
-        <div class="card">
-          <div class="card-name">Duplicate vendor check</div>
-          <div class="owner">Owner &middot; <b>Andrew</b></div>
-          <div class="card-date">Sep 14</div>
-          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/duplicate-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
-        </div>
         <div class="card">
           <div class="card-name">Vendor consolidation analysis</div>
           <div class="owner">Owner &middot; <b>Cindy, Andrew</b></div>
@@ -618,18 +608,6 @@
           <div class="card-date">Sep 14</div>
           <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/compalt-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
         </div>
-        <div class="card">
-          <div class="card-name">Contract review</div>
-          <div class="owner">Owner &middot; <b>Anna, Andrew</b></div>
-          <div class="card-date">Sep 14</div>
-          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/contract-review-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
-        </div>
-        <div class="card">
-          <div class="card-name">Contract triage</div>
-          <div class="owner">Owner &middot; <b>Anna, Hannah</b></div>
-          <div class="card-date">Sep 14</div>
-          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/contract-triage-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
-        </div>
         <div class="empty-plan">
           <div class="plan-label">Assignment</div>
           <ul class="plan-list">
@@ -641,6 +619,35 @@
             <li>Sync with PM on edge cases handling</li>
             <li>Stabilize skill output</li>
           </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head">
+        <span class="dot eval"></span>
+        <span class="col-title">Expanded Eval</span>
+        <span class="col-count">3</span>
+      </div>
+      <div class="col-note">Expand testing to multiple environments, with more test cases.</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-name">Duplicate vendor check</div>
+          <div class="owner">Owner &middot; <b>Andrew</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/duplicate-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Contract review</div>
+          <div class="owner">Owner &middot; <b>Anna, Andrew</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/contract-review-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
+        </div>
+        <div class="card">
+          <div class="card-name">Contract triage</div>
+          <div class="owner">Owner &middot; <b>Anna, Hannah</b></div>
+          <div class="card-date">Sep 14</div>
+          <a class="report-link" href="https://tools.ziphq.net/zip-dev-artifacts/meghana.narayanan@ziphq.com/reports/contract-triage-oscar-report-0914.html" target="_blank" rel="noopener"><span class="report-dot"></span>Eval report</a>
         </div>
       </div>
     </div>
